@@ -1,0 +1,15 @@
+{
+  "name": "aaw-register",
+  "description": "",
+  "version": "0.1.0",
+  "dependencies": {
+    "base-64": "^0.1.0",
+    "pg": "^7.4.0",
+    "pg-hstore": "^2.3.2",
+    "sendgrid": "^5.2.3",
+    "sequelize": "^4.28.0"
+  },
+  "devDependencies": {
+    "serverless-python-requirements": "^3.0.10"
+  }
+}
