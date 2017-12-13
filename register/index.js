@@ -1,7 +1,8 @@
 'use strict';
-var User = require('./../model/models.js')
+var User = require('./../model/models.js');
 const sendGridMailer = require("./sendGridMailer.js")
 var base64 = require('base-64');
+var Otp = require('./../component/otp.js')
 
 module.exports.register = (context, req, callback) => {
   context.log('JavaScript HTTP trigger function processed a request.');
@@ -25,17 +26,20 @@ module.exports.register = (context, req, callback) => {
           res.body = "Already registered";
           res.status = 200
         }else{
-            User.sync({force: false}).then(function () {
-                return User.create({
-                    firstName: first_name,
-                    lastName: last_name,
-                    middleName: middle_name,
-                    email: email,
-                    qatarId: qatari_id,
-                    mobile: mobile
-                });
-          });
+            User.sync({force: false})
+              .then(function () {
+                  return User.create({
+                      firstName: first_name,
+                      lastName: last_name,
+                      middleName: middle_name,
+                      email: email,
+                      qatarId: qatari_id,
+                      mobile: mobile
+                  });
+              });
           
+          var otp = generateOTP();
+          context.log(otp)
 
           let mailer = new sendGridMailer(email);
           mailer.sendMail(context,callback)
@@ -57,8 +61,6 @@ module.exports.register = (context, req, callback) => {
   }
 
   context.done(null, res);
+
 };
 
-generateOTP() {
-    return Math.floor(Math.random() * (999999 - 100000)) + 100000;
-}
