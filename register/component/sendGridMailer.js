@@ -1,12 +1,19 @@
-var sg = require('sendgrid')('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');
+var sg = require('sendgrid')('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');
 
-
+var Template = require('./templating');
+var html_files = {
+                'account-activation': 'Activation.html',
+	}
+	
 class SendGridMailer{
 
-	constructor(mail){
-		this.mail = mail
+	constructor(){
+		
 	}
-	sendMail(context){
+	sendMail(context,callback,mail,subject,template_name,arguments_){
+		context.log('In the mailer')
+		let template = new Template(template_name,arguments_)
+		
 		var request = sg.emptyRequest({
 			method: 'POST',
 			path: '/v3/mail/send',
@@ -15,10 +22,10 @@ class SendGridMailer{
 			    {
 			      to: [
 			        {
-			          email: this.mail
+			          email: mail
 			        }
 			      ],
-			      subject: 'Account Activation'
+			      subject: subject
 			    }
 			  ],
 			  from: {
@@ -36,11 +43,13 @@ class SendGridMailer{
 	    sg.API(request)
 	    .then(function (response) {
 	      context.log("Mail sent");
-	     	callback();
+	     	// callback();
+			// return true;
 	    })
 	    .catch(function (error) {
 	      context.log('Mail not sent');
-	      callback();
+	      // callback();
+		  // return false;
 	    });
 	}
 		

@@ -1,6 +1,7 @@
 var Sequelize = require('sequelize');
-
-var sequelize = new Sequelize('postgres://aawjewel@aaw:ABcd12345@aaw.postgres.database.azure.com:5432/aawqf', {
+var config = require('./../config/config');
+var POSTGRES_URL = config.POSTGRES_URL
+var sequelize = new Sequelize(POSTGRES_URL, {
         dialect: 'postgres',
         protocol: 'postgres',
         logging: true,
